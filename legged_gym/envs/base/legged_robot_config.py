@@ -4,9 +4,9 @@ class LeggedRobotCfg(BaseConfig):
     class env:
         num_envs = 4096
         num_observations = 48
-        num_privileged_obs = None # if not None a priviledge_obs_buf will be returned by step() (critic obs for assymetric training). None is returned otherwise 
+        num_privileged_obs = None # if not None a priviledge_obs_buf will be returned by step() (critic obs for assymetric training). None is returned otherwise
         num_actions = 12
-        env_spacing = 3.  # not used with heightfields/trimeshes 
+        env_spacing = 3.  # not used with heightfields/trimeshes
         send_timeouts = True # send time out information to the algorithm
         episode_length_s = 20 # episode length in seconds
         test = False
@@ -54,7 +54,7 @@ class LeggedRobotCfg(BaseConfig):
         lin_vel = [0.0, 0.0, 0.0]  # x,y,z [m/s]
         ang_vel = [0.0, 0.0, 0.0]  # x,y,z [rad/s]
         default_joint_angles = { # target angles when action = 0.0
-            "joint_a": 0., 
+            "joint_a": 0.,
             "joint_b": 0.}
 
     class control:
@@ -80,7 +80,7 @@ class LeggedRobotCfg(BaseConfig):
         self_collisions = 0 # 1 to disable, 0 to enable...bitwise filter
         replace_cylinder_with_capsule = True # replace collision cylinders with capsules, leads to faster/more stable simulation
         flip_visual_attachments = True # Some .obj meshes must be flipped from y-up to z-up
-        
+
         density = 0.001
         angular_damping = 0.
         linear_damping = 0.
@@ -109,14 +109,14 @@ class LeggedRobotCfg(BaseConfig):
             torques = -0.00001
             dof_vel = -0.
             dof_acc = -2.5e-7
-            base_height = -0. 
+            base_height = -0.
             feet_air_time =  1.0
             collision = -1.
-            feet_stumble = -0.0 
+            feet_stumble = -0.0
             action_rate = -0.01
             stand_still = -0.
 
-        only_positive_rewards = True # if true negative total rewards are clipped at zero (avoids early termination problems)
+        only_positive_rewards = False # if true negative total rewards are clipped at zero (avoids early termination problems)
         tracking_sigma = 0.25 # tracking reward = exp(-error^2/sigma)
         soft_dof_pos_limit = 1. # percentage of urdf limits, values above this limit are penalized
         soft_dof_vel_limit = 1.
@@ -175,14 +175,14 @@ class LeggedRobotCfgPPO(BaseConfig):
     runner_class_name = 'OnPolicyRunner'
     class policy:
         init_noise_std = 1.0
-        actor_hidden_dims = [512, 256, 128]
-        critic_hidden_dims = [512, 256, 128]
-        activation = 'elu' # can be elu, relu, selu, crelu, lrelu, tanh, sigmoid
+        actor_hidden_dims = [1024,512, 256, 128]
+        critic_hidden_dims = [1024,512, 256, 128]
+        activation = 'tanh' # can be elu, relu, selu, crelu, lrelu, tanh, sigmoid
         # only for 'ActorCriticRecurrent':
         # rnn_type = 'lstm'
         # rnn_hidden_size = 512
         # rnn_num_layers = 1
-        
+
     class algorithm:
         # training params
         value_loss_coef = 1.0
@@ -191,7 +191,7 @@ class LeggedRobotCfgPPO(BaseConfig):
         entropy_coef = 0.01
         num_learning_epochs = 5
         num_mini_batches = 4 # mini batch size = num_envs*nsteps / nminibatches
-        learning_rate = 1.e-3 #5.e-4
+        learning_rate = 5.e-4 #5.e-4
         schedule = 'adaptive' # could be adaptive, fixed
         gamma = 0.99
         lam = 0.95

@@ -6,7 +6,6 @@ from legged_gym.envs.h1.h1_config import H1RoughCfg, H1RoughCfgPPO
 from .base.legged_robot import LeggedRobot
 
 from legged_gym.utils.task_registry import task_registry
+print("init env and task_register")
 task_registry.register( "go2", LeggedRobot, GO2RoughCfg(), GO2RoughCfgPPO())
 task_registry.register( "h1", LeggedRobot, H1RoughCfg(), H1RoughCfgPPO())
-
-

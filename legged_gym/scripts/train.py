@@ -2,7 +2,7 @@ import numpy as np
 import os
 from datetime import datetime
 import sys
-sys.path.append("/home/unitree/unitree_rl_gym/")
+sys.path.append("/home/seeker/RL/rl_ppo_human/")
 
 import isaacgym
 from legged_gym.envs import *
@@ -16,5 +16,5 @@ def train(args):
 
 if __name__ == '__main__':
     args = get_args()
-    args.headless = False
+    args.headless = True
     train(args)

@@ -4,56 +4,57 @@ class H1RoughCfg( LeggedRobotCfg ):
     class init_state( LeggedRobotCfg.init_state ):
         pos = [0.0, 0.0, 1.0] # x,y,z [m]
         default_joint_angles = { # = target angles [rad] when action = 0.0
-           'left_hip_yaw_joint' : 0. ,   
-           'left_hip_roll_joint' : 0,               
-           'left_hip_pitch_joint' : -0.4,         
-           'left_knee_joint' : 0.8,       
-           'left_ankle_joint' : -0.4,     
-           'right_hip_yaw_joint' : 0., 
-           'right_hip_roll_joint' : 0, 
-           'right_hip_pitch_joint' : -0.4,                                       
-           'right_knee_joint' : 0.8,                                             
-           'right_ankle_joint' : -0.4,                                     
-           'torso_joint' : 0., 
-           'left_shoulder_pitch_joint' : 0., 
-           'left_shoulder_roll_joint' : 0, 
+           'left_hip_yaw_joint' : 0. ,
+           'left_hip_roll_joint' : 0,
+           'left_hip_pitch_joint' : -0.3,
+           'left_knee_joint' : 0.7,
+           'left_ankle_joint' : -0.4,
+           'right_hip_yaw_joint' : 0.,
+           'right_hip_roll_joint' : 0,
+           'right_hip_pitch_joint' : -0.3,
+           'right_knee_joint' : 0.7,
+           'right_ankle_joint' : -0.4,
+           'torso_joint' : 0.,
+           'left_shoulder_pitch_joint' : 0.46,
+           'left_shoulder_roll_joint' : 0,
            'left_shoulder_yaw_joint' : 0.,
            'left_elbow_joint'  : 0.,
-           'right_shoulder_pitch_joint' : 0.,
+           'right_shoulder_pitch_joint' : 0.46,
            'right_shoulder_roll_joint' : 0.0,
            'right_shoulder_yaw_joint' : 0.,
            'right_elbow_joint' : 0.,
         }
-    
+
+
     class env(LeggedRobotCfg.env):
-        num_observations = 42
-        num_actions = 10
-      
+        num_observations = 69
+        num_actions = 19
+
 
     class control( LeggedRobotCfg.control ):
         # PD Drive parameters:
         control_type = 'P'
           # PD Drive parameters:
-        stiffness = {'hip_yaw': 200,
-                     'hip_roll': 200,
-                     'hip_pitch': 200,
-                     'knee': 300,
+        stiffness = {'hip_yaw': 300,
+                     'hip_roll': 300,
+                     'hip_pitch': 300,
+                     'knee': 200,
                      'ankle': 40,
                      'torso': 300,
-                     'shoulder': 100,
-                     "elbow":100,
+                     'shoulder': 150,
+                     "elbow":50,
                      }  # [N*m/rad]
-        damping = {  'hip_yaw': 5,
-                     'hip_roll': 5,
-                     'hip_pitch': 5,
-                     'knee': 6,
-                     'ankle': 2,
-                     'torso': 6,
+        damping = {  'hip_yaw': 3,
+                     'hip_roll': 3,
+                     'hip_pitch': 3,
+                     'knee': 2,
+                     'ankle': 1,
+                     'torso': 5,
                      'shoulder': 2,
-                     "elbow":2,
+                     "elbow":1,
                      }  # [N*m/rad]  # [N*m*s/rad]
         # action scale: target angle = actionScale * action + defaultAngle
-        action_scale = 0.25
+        action_scale = 0.02
         # decimation: Number of control action updates @ sim DT per policy DT
         decimation = 4
 
@@ -65,13 +66,13 @@ class H1RoughCfg( LeggedRobotCfg ):
         terminate_after_contacts_on = ["pelvis"]
         self_collisions = 1 # 1 to disable, 0 to enable...bitwise filter
         flip_visual_attachments = False
-  
+
     class rewards( LeggedRobotCfg.rewards ):
         soft_dof_pos_limit = 0.9
         base_height_target = 0.98
         class scales( LeggedRobotCfg.rewards.scales ):
-            tracking_lin_vel = 1.0
-            tracking_ang_vel = 0.5
+            tracking_lin_vel = 1.2
+            tracking_ang_vel = 0.6
             lin_vel_z = -2.0
             ang_vel_xy = -1.0
             orientation = -1.0
@@ -89,5 +90,3 @@ class H1RoughCfgPPO( LeggedRobotCfgPPO ):
     class runner( LeggedRobotCfgPPO.runner ):
         run_name = ''
         experiment_name = 'h1'
-
-  
